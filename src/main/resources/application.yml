@@ -1,0 +1,47 @@
+yandex-lavka:
+  couriers-earning:
+    FOOT: 2
+    BIKE: 3
+    AUTO: 4
+  couriers-rating:
+    FOOT: 3
+    BIKE: 2
+    AUTO: 1
+
+spring:
+  datasource:
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://${POSTGRES_SERVER}:${POSTGRES_PORT}/${POSTGRES_DB}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+      jakarta:
+        persistence:
+          sharedCache:
+            mode: UNSPECIFIED
+    open-in-view: false
+
+    hibernate:
+      ddl-auto: create
+
+resilience4j:
+  ratelimiter:
+    configs:
+      default:
+        limitForPeriod: 1
+        limitRefreshPeriod: 10s
+        timeoutDuration: 100ms
+
+
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /openapi/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui

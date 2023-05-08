@@ -5,11 +5,12 @@ services:
     container_name: app
     build: .
     ports:
-      - 8080:8080
+      - "8080:8080"
     restart: always
     environment:
-      POSTGRES_SERVER: localhost
-      POSTGRES_PORT: 8080
+#      POSTGRES_SERVER: localhost
+      POSTGRES_SERVER: db
+      POSTGRES_PORT: 5432
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -17,14 +18,16 @@ services:
       - db:db_domain
     depends_on:
       - db
+    volumes:
+      - .:/usr/app/src
 
   db:
     container_name: yandex-lavka-db
     image: postgres:15.2
     volumes:
       - dbvolume:/var/lib/postgresql/dbvolume
-    ports:
-      - "5432:5432"
+#    ports:
+#      - "5432:5432"
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
