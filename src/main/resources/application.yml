@@ -1,18 +1,42 @@
 yandex-lavka:
-  couriers-earning:
+  earning:
     FOOT: 2
     BIKE: 3
     AUTO: 4
-  couriers-rating:
+  rating:
     FOOT: 3
     BIKE: 2
     AUTO: 1
+  max-weight:
+    FOOT: 10
+    BIKE: 20
+    AUTO: 40
+  max-order-amount:
+    FOOT: 2
+    BIKE: 4
+    AUTO: 7
+  regions-on-delivery:
+    FOOT: 1
+    BIKE: 2
+    AUTO: 3
+  time-on-first-order:
+    FOOT: 25
+    BIKE: 12
+    AUTO: 8
+  time-on-next-order:
+    FOOT: 10
+    BIKE: 8
+    AUTO: 4
+  cost-coef-next-order: 0.8
 
 spring:
   datasource:
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
-    url: jdbc:postgresql://${POSTGRES_SERVER}:${POSTGRES_PORT}/${POSTGRES_DB}
+#    username: ${POSTGRES_USER}
+#    password: ${POSTGRES_PASSWORD}
+#    url: jdbc:postgresql://${POSTGRES_SERVER}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://db:5432/postgres
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:
@@ -32,11 +56,9 @@ resilience4j:
   ratelimiter:
     configs:
       default:
-        limitForPeriod: 1
-        limitRefreshPeriod: 10s
+        limitForPeriod: 10
+        limitRefreshPeriod: 1s
         timeoutDuration: 100ms
-
-
 
 springdoc:
   api-docs:

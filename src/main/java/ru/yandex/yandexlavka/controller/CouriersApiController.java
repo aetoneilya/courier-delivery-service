@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.yandexlavka.controller.api.CouriersApi;
 import ru.yandex.yandexlavka.dto.CourierDto;
 import ru.yandex.yandexlavka.dto.request.CreateCourierRequest;
-import ru.yandex.yandexlavka.dto.response.*;
+import ru.yandex.yandexlavka.dto.response.CreateCouriersResponse;
+import ru.yandex.yandexlavka.dto.response.GetCourierMetaInfoResponse;
+import ru.yandex.yandexlavka.dto.response.GetCouriersResponse;
+import ru.yandex.yandexlavka.dto.response.OrderAssignResponse;
 import ru.yandex.yandexlavka.service.CouriersService;
 
 import java.time.LocalDate;
@@ -20,11 +23,14 @@ import java.time.LocalDate;
 public class CouriersApiController implements CouriersApi {
     private final CouriersService couriersService;
 
-
+    // assume that date parameter is deprecated
     @Override
     @RateLimiter(name = "couriersAssignments-limiter")
     public ResponseEntity<OrderAssignResponse> couriersAssignments(LocalDate date, Integer courierId) {
-        return null;
+        log.info("Get courier assignments request = date: " + date + " courierId: " + courierId);
+        OrderAssignResponse response = courierId == null ?
+                couriersService.getOrderAssignmentsAll() : couriersService.getOrderAssignmentsForCourier(Long.valueOf(courierId));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override

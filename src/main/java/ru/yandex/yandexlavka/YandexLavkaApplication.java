@@ -13,5 +13,4 @@ public class YandexLavkaApplication {
         ApplicationConfig config = ctx.getBean(ApplicationConfig.class);
         System.out.println(config);
     }
-
 }

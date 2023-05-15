@@ -11,7 +11,6 @@ import java.util.List;
 public record GroupOrders(
         @JsonProperty("group_order_id")
         Long groupOrderId,
-
         @JsonProperty("orders")
         @Valid
         List<OrderDto> orders

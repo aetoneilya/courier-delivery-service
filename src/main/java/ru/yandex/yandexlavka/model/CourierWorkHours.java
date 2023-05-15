@@ -15,7 +15,7 @@ import java.time.LocalTime;
 public class CourierWorkHours {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "work_start", nullable = false)
@@ -25,6 +25,6 @@ public class CourierWorkHours {
     private LocalTime end;
 
     public String toFormatString() {
-        return "%d:%d-%d:%d".formatted(start.getHour(), start.getMinute(), end.getHour(), end.getMinute());
+        return "%02d:%02d-%02d:%02d".formatted(start.getHour(), start.getMinute(), end.getHour(), end.getMinute());
     }
 }

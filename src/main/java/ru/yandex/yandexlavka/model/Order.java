@@ -15,14 +15,14 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 public class Order {
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "order_id")
-    List<OrderDeliveryHours> deliveryHours;
-
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "order_id")
+    private List<OrderDeliveryHours> deliveryHours;
 
     @Column(name = "weight", nullable = false)
     private Float weight;
@@ -30,11 +30,15 @@ public class Order {
     @Column(name = "cost", nullable = false)
     private Integer cost;
 
+    @Column(name = "cost_coefficient", nullable = false, columnDefinition = "float default 1")
+    private Float costCoefficient = 1f;
+
     @Column(name = "region_id", nullable = false)
     private Integer region;
 
     @ManyToOne
-    private Courier courier;
+    @JoinColumn(name = "orders")
+    private Assignment assignment;
 
     @Column(name = "completion_time")
     private OffsetDateTime completionTime;

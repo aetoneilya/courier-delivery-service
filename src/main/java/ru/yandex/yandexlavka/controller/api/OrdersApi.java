@@ -29,20 +29,15 @@ public interface OrdersApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "ok", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = OrderDto.class)))),
             @ApiResponse(responseCode = "400", description = "bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestResponse.class)))})
-    @PostMapping(value = "/orders/complete",
-            produces = {"application/json"},
-            consumes = {"application/json"})
+    @PostMapping(value = "/orders/complete", produces = {"application/json"}, consumes = {"application/json"})
     ResponseEntity<List<OrderDto>> completeOrder(@Parameter(in = ParameterIn.DEFAULT, description = "", required = true, schema = @Schema()) @Valid @RequestBody CompleteOrderRequestDto body);
 
 
     @Operation(summary = "", description = "", tags = {"order-controller"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "ok", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = OrderDto.class)))),
-
             @ApiResponse(responseCode = "400", description = "bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestResponse.class)))})
-    @PostMapping(value = "/orders",
-            produces = {"application/json"},
-            consumes = {"application/json"})
+    @PostMapping(value = "/orders", produces = {"application/json"}, consumes = {"application/json"})
     ResponseEntity<List<OrderDto>> createOrder(@Parameter(in = ParameterIn.DEFAULT, description = "", required = true, schema = @Schema()) @Valid @RequestBody CreateOrderRequest body);
 
 
@@ -51,18 +46,15 @@ public interface OrdersApi {
             @ApiResponse(responseCode = "200", description = "ok", content = @Content(mediaType = "application/json", schema = @Schema(implementation = OrderDto.class))),
             @ApiResponse(responseCode = "400", description = "bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestResponse.class))),
             @ApiResponse(responseCode = "404", description = "not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = NotFoundResponse.class)))})
-    @GetMapping(value = "/orders/{order_id}",
-            produces = {"application/json"})
+    @GetMapping(value = "/orders/{order_id}", produces = {"application/json"})
     ResponseEntity<OrderDto> getOrder(@Parameter(in = ParameterIn.PATH, description = "Order identifier", required = true, schema = @Schema()) @PathVariable("order_id") Long orderId);
 
 
     @Operation(summary = "", description = "", tags = {"order-controller"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "ok", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = OrderDto.class)))),
-
             @ApiResponse(responseCode = "400", description = "bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestResponse.class)))})
-    @GetMapping(value = "/orders",
-            produces = {"application/json"})
+    @GetMapping(value = "/orders", produces = {"application/json"})
     ResponseEntity<List<OrderDto>> getOrders(@Parameter(in = ParameterIn.QUERY, description = "Максимальное количество заказов в выдаче. Если параметр не передан, то значение по умолчанию равно 1.", schema = @Schema()) @Valid @RequestParam(value = "limit", required = false) Integer limit, @Parameter(in = ParameterIn.QUERY, description = "Количество заказов, которое нужно пропустить для отображения текущей страницы. Если параметр не передан, то значение по умолчанию равно 0.", schema = @Schema()) @Valid @RequestParam(value = "offset", required = false) Integer offset);
 
 
@@ -70,8 +62,6 @@ public interface OrdersApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "ok", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = OrderAssignResponse.class)))),
             @ApiResponse(responseCode = "400", description = "bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestResponse.class)))})
-    @PostMapping(value = "/orders/assign",
-            produces = {"application/json"})
+    @PostMapping(value = "/orders/assign", produces = {"application/json"})
     ResponseEntity<List<OrderAssignResponse>> ordersAssign(@Parameter(in = ParameterIn.QUERY, description = "Дата распределения заказов. Если не указана, то используется текущий день", schema = @Schema()) @Valid @RequestParam(value = "date", required = false) LocalDate date);
-
 }

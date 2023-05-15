@@ -15,7 +15,7 @@ import java.time.LocalTime;
 public class OrderDeliveryHours {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "delivery_start", nullable = false)
@@ -24,7 +24,10 @@ public class OrderDeliveryHours {
     @Column(name = "delivery_end", nullable = false)
     private LocalTime end;
 
+    @ManyToOne
+    private Order order;
+
     public String toFormatString() {
-        return "%d:%d-%d:%d".formatted(start.getHour(), start.getMinute(), end.getHour(), end.getMinute());
+        return "%02d:%02d-%02d:%02d".formatted(start.getHour(), start.getMinute(), end.getHour(), end.getMinute());
     }
 }

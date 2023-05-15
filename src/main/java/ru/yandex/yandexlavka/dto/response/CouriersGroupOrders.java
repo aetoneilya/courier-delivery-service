@@ -10,7 +10,6 @@ import java.util.List;
 public record CouriersGroupOrders(
         @JsonProperty("courier_id")
         Long courierId,
-
         @JsonProperty("orders")
         @Valid
         List<GroupOrders> orders

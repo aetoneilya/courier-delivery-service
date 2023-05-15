@@ -8,9 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.yandexlavka.controller.api.OrdersApi;
 import ru.yandex.yandexlavka.dto.CompleteOrderRequestDto;
+import ru.yandex.yandexlavka.dto.OrderDto;
 import ru.yandex.yandexlavka.dto.request.CreateOrderRequest;
 import ru.yandex.yandexlavka.dto.response.OrderAssignResponse;
-import ru.yandex.yandexlavka.dto.OrderDto;
 import ru.yandex.yandexlavka.service.OrdersService;
 
 import java.time.LocalDate;
@@ -33,7 +33,7 @@ public class OrdersApiController implements OrdersApi {
     @RateLimiter(name = "createOrder-limiter")
     public ResponseEntity<List<OrderDto>> createOrder(CreateOrderRequest body) {
         log.info("Create order request size = " + body.orders().size());
-        return new ResponseEntity<>(ordersService.createCouriers(body.orders()), HttpStatus.OK);
+        return new ResponseEntity<>(ordersService.createOrders(body.orders()), HttpStatus.OK);
     }
 
     @Override
@@ -55,6 +55,6 @@ public class OrdersApiController implements OrdersApi {
     @Override
     @RateLimiter(name = "ordersAssign-limiter")
     public ResponseEntity<List<OrderAssignResponse>> ordersAssign(LocalDate date) {
-        return null;
+        return new ResponseEntity<>(ordersService.ordersAssign(), HttpStatus.CREATED);
     }
 }

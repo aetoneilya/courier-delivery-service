@@ -1,9 +1,14 @@
 FROM openjdk:17.0.1-jdk-slim
 
-ARG JAR_FILE=build/libs/*SNAPSHOT.jar
-
 WORKDIR /opt/app
 
-COPY ${JAR_FILE} yandex-lavka.jar
+COPY *.gradle ./
+COPY src ./src/
+COPY gradlew .
+COPY gradle ./gradle/
 
-ENTRYPOINT ["java","-jar","yandex-lavka.jar"]
+RUN chmod +x gradlew
+RUN sed -i 's/\r$//' gradlew
+RUN bash gradlew bootJar
+
+ENTRYPOINT ["java","-jar","build/libs/yandex-lavka-0.0.1-SNAPSHOT.jar"]

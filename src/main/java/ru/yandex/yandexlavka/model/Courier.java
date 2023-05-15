@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -15,18 +17,17 @@ import java.util.List;
 @Entity
 @Table(name = "couriers")
 public class Courier {
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "courier_id")
-    private List<CourierRegion> regionList = new ArrayList<>();
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @ElementCollection
+    private Set<Integer> regions = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "courier_id")
     private List<CourierWorkHours> workHours = new ArrayList<>();
-
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "type", nullable = false)

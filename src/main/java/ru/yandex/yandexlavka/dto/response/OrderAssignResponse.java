@@ -11,7 +11,6 @@ import java.util.List;
 public record OrderAssignResponse(
         @JsonProperty("date")
         LocalDate date,
-
         @JsonProperty("couriers")
         @Valid
         List<CouriersGroupOrders> couriers
