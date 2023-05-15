@@ -61,11 +61,6 @@ public class CouriersApiControllerIntTest {
     }
 
     @Test
-    void couriersAssignments() {
-        //TODO
-    }
-
-    @Test
     @Transactional
     @Rollback
     void createCourier() throws Exception {
@@ -86,6 +81,36 @@ public class CouriersApiControllerIntTest {
                         .content(asJsonString(createCourierRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().json(asJsonString(createCouriersResponse)));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    void createCourierBadRequest() throws Exception {
+        CreateCourierRequest createCourierRequest = new CreateCourierRequest(List.of(
+                new CreateCourierDto(CourierTypeEnum.FOOT, List.of(-1, 2, 3), List.of("11:00-12:00", "16:00-21:00"))
+        ));
+
+        mockMvc.perform(post("/couriers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(createCourierRequest)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    void createCourierBadRequest2() throws Exception {
+        CreateCourierRequest createCourierRequest = new CreateCourierRequest(List.of(
+                new CreateCourierDto(CourierTypeEnum.FOOT, List.of(1, 2, 3), List.of("99:00-12:00", "16:00-21:00")),
+                new CreateCourierDto(CourierTypeEnum.AUTO, List.of(1, 4, 3), List.of("11:10-14:20", "15:00-20:30")),
+                new CreateCourierDto(CourierTypeEnum.BIKE, List.of(2, 5), List.of("11:24-12:30", "16:30-21:06"))
+        ));
+
+        mockMvc.perform(post("/couriers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(createCourierRequest)))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -126,11 +151,6 @@ public class CouriersApiControllerIntTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(asJsonString(expected)));
-    }
-
-    @Test
-    void getCourierMetaInfo() {
-        //TODO
     }
 
     @Test

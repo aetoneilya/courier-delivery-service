@@ -58,11 +58,6 @@ class OrdersApiControllerIntTest {
     }
 
     @Test
-    void completeOrder() {
-        // TODO
-    }
-
-    @Test
     @Transactional
     @Rollback
     void createOrder() throws Exception {
@@ -83,6 +78,59 @@ class OrdersApiControllerIntTest {
                         .content(asJsonString(createOrderRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().json(asJsonString(orderDtoList)));
+    }
+    @Test
+    @Transactional
+    @Rollback
+    void createOrderNegativeCost() throws Exception {
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest(List.of(
+                new CreateOrderDto(23F, 1, List.of("11:00-12:00", "16:00-21:00"), -100)
+        ));
+
+        mockMvc.perform(post("/orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(createOrderRequest)))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    @Transactional
+    @Rollback
+    void createOrderNegativeWeight() throws Exception {
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest(List.of(
+                new CreateOrderDto(-23F, 1, List.of("11:00-12:00", "16:00-21:00"), 100)
+        ));
+
+        mockMvc.perform(post("/orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(createOrderRequest)))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    @Transactional
+    @Rollback
+    void createOrderNegativeRegion() throws Exception {
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest(List.of(
+                new CreateOrderDto(23F, -1, List.of("11:00-12:00", "16:00-21:00"), -100)
+        ));
+
+        mockMvc.perform(post("/orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(createOrderRequest)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    void createOrderWrongTime() throws Exception {
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest(List.of(
+                new CreateOrderDto(23F, 1, List.of("11:0012:00", "16:00-21:00"), -100)
+        ));
+
+        mockMvc.perform(post("/orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(createOrderRequest)))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -113,6 +161,20 @@ class OrdersApiControllerIntTest {
     }
 
     @Test
+    void getCourierByIdNotFound() throws Exception {
+        mockMvc.perform(get("/orders/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getCourierByIdBadRequest() throws Exception {
+        mockMvc.perform(get("/orders/bad")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     @Transactional
     @Rollback
     void getOrders() throws Exception {
@@ -129,7 +191,6 @@ class OrdersApiControllerIntTest {
                 .andExpect(status().isOk());
 
 
-
         List<OrderDto> orderDtoList = List.of(
                 new OrderDto(null, 23F, 1, List.of("11:00-12:00", "16:00-21:00"), 100, null),
                 new OrderDto(null, 23F, 1, List.of("11:00-12:00", "16:00-21:00"), 100, null)
@@ -142,6 +203,7 @@ class OrdersApiControllerIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(asJsonString(orderDtoList)));
     }
+
     @Test
     @Transactional
     @Rollback
@@ -159,7 +221,6 @@ class OrdersApiControllerIntTest {
                 .andExpect(status().isOk());
 
 
-
         List<OrderDto> orderDtoList = List.of(
                 new OrderDto(null, 23F, 1, List.of("11:00-12:00", "16:00-21:00"), 100, null)
         );
@@ -168,10 +229,5 @@ class OrdersApiControllerIntTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(asJsonString(orderDtoList)));
-    }
-
-    @Test
-    void ordersAssign() {
-        //TODO
     }
 }

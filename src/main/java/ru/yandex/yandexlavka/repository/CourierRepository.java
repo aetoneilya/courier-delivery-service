@@ -8,8 +8,8 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 public interface CourierRepository extends JpaRepository<Courier, Long> {
-    @Query("select  o.cost * o.costCoefficient from Order o join Assignment a where a.courier.id = :courierId " +
-            "and o.completionTime >= :startDate and o.completionTime < :endDate")
+    @Query("select o.cost * o.costCoefficient from Order o join Assignment a on (o.assignment = a) where a.courier.id = :courierId " +
+            "and o.completionTime != null and o.completionTime >= :startDate and o.completionTime < :endDate")
     List<Integer> getEarnedMoney(Long courierId, OffsetDateTime startDate, OffsetDateTime endDate);
 
 }
