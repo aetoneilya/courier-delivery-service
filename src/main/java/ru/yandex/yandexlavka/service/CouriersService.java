@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.yandexlavka.configuration.ApplicationConfig;
 import ru.yandex.yandexlavka.dto.CourierDto;
-import ru.yandex.yandexlavka.dto.CourierTypeEnum;
 import ru.yandex.yandexlavka.dto.CreateCourierDto;
 import ru.yandex.yandexlavka.dto.mapper.DtoMapper;
 import ru.yandex.yandexlavka.dto.response.GetCourierMetaInfoResponse;

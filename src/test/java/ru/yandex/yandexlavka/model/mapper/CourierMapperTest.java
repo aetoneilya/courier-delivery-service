@@ -1,6 +1,5 @@
 package ru.yandex.yandexlavka.model.mapper;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.yandexlavka.dto.CourierTypeEnum;
 import ru.yandex.yandexlavka.dto.CreateCourierDto;
